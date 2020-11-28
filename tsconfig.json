@@ -9,13 +9,9 @@
     "composite": true,
     "incremental": true,
     "outDir": ".",
-    "declaration": true,
-    "declarationDir": ".",
-    "emitDeclarationOnly": true
+    "skipLibCheck": true,
+    "noEmit": true
   },
-  "include": [
-    "src"
-  ],
   "exclude": [
     "*.d.ts"
   ]

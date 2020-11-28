@@ -1,0 +1,8 @@
+{
+  "transform": {
+    "\\.[jt]sx?$": "babel-jest"
+  },
+  "testPathIgnorePatterns": [
+    "/__fixtures__/"
+  ]
+}
