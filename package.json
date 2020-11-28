@@ -1,0 +1,25 @@
+{
+  "name": "concurrently.macro",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cometkim/concurrently.macro.git"
+  },
+  "author": {
+    "name": "Hyeseong Kim",
+    "email": "hey@hyeseong.kim"
+  },
+  "license": "MIT",
+  "keywords": [
+    "babel",
+    "babel-plugin",
+    "babel-plugin-macros",
+    "precompile",
+    "promise",
+    "async"
+  ],
+  "scripts": {
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
