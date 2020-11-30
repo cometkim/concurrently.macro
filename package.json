@@ -1,8 +1,11 @@
 {
   "name": "concurrently.macro",
   "version": "0.0.0",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "main": "src/index.ts",
+  "publishConfig": {
+    "main": "index.js",
+    "types": "index.d.ts"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cometkim/concurrently.macro.git"
