@@ -33,6 +33,7 @@
     "build": "babel src -d . --extensions .ts"
   },
   "peerDependencies": {
+    "@babel/core": "^7.0.0",
     "babel-plugin-macros": "^3.0.0"
   },
   "devDependencies": {
