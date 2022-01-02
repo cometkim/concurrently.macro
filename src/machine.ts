@@ -66,6 +66,10 @@ export const machine = createMachine<Context, Event>({
             if (event.path.parentPath.isVariableDeclarator()) {
               currentArgument.path = event.path.parentPath.parentPath;
 
+              if (currentArgument.path.state?.replaced) {
+                return context;
+              }
+
               const node = event.path.parentPath.node;
               if (node.id.type === 'Identifier') {
                 const val = node.id;
@@ -207,6 +211,7 @@ export const machine = createMachine<Context, Event>({
         .forEach(arg => arg.path.remove());
 
       context.placeholder.replaceInline(ast);
+      context.placeholder.state = { replaced: true };
 
       return {
         counter: 0,
