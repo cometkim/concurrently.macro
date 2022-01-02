@@ -11,7 +11,13 @@ type DeepObject = {
   },
 };
 
-const deep = () => Promise.resolve({} as DeepObject);
+type DeepArray = [
+  string,
+  number,
+];
+
+const deepObject = () => Promise.resolve({} as DeepObject);
+const deepArray = () => Promise.resolve({} as DeepArray);
 const A = Promise.resolve();
 const B = (...args: any[]) => Promise.resolve();
 
@@ -19,14 +25,18 @@ concurrently(async () => {
   const {
     a: {
       b: {
-        c: [c1, c2],
+        c: [s1, s2],
         d: {
-          value: value1,
+          value: s3,
         },
       },
     },
-  } = await deep();
+  } = await deepObject();
+  const [s4, n1] = await deepArray();
+
   await A;
-  const b1 = await B(c1, c2);
-  const b2 = await B(value1);
+  const b1 = await B(s1, s2);
+  const b2 = await B(s3, s4);
+  const b3 = await B(b1);
+  const b4 = await B(n1);
 });

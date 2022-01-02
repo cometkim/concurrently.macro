@@ -1,9 +1,9 @@
-import concurrently, { sideEffect } from '../../../../concurrently.macro';
+import concurrently from '../../../../concurrently.macro';
 
 const A = () => Promise.resolve();
 const B = (...args: any[]) => Promise.resolve();
 
-concurrently(async () => {
+concurrently(sideEffect => async () => {
   await A();
   const a1 = await A();
 
@@ -11,5 +11,5 @@ concurrently(async () => {
   sideEffect();
 
   const a2 = await A();
-  const b = await B(a1, a2);
+  const a3 = await B(a1, a2);
 });

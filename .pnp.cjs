@@ -39,12 +39,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/core", "npm:7.16.7"],
             ["@babel/preset-env", "virtual:a7cd21b87660a29270ead5347039d996a0421da5fbff7f931b71cf9ec115faf4ca3064165e41bac447c31f3807d3284a67f954a5ed17828bc3e41682520ff588#npm:7.16.7"],
             ["@babel/preset-typescript", "virtual:a7cd21b87660a29270ead5347039d996a0421da5fbff7f931b71cf9ec115faf4ca3064165e41bac447c31f3807d3284a67f954a5ed17828bc3e41682520ff588#npm:7.16.7"],
+            ["@babel/template", "npm:7.16.7"],
+            ["@babel/traverse", "npm:7.16.7"],
             ["@babel/types", "npm:7.16.7"],
             ["@types/babel-plugin-macros", "npm:2.8.5"],
             ["@types/babel-plugin-tester", "npm:9.0.4"],
             ["@types/babel__core", "npm:7.1.18"],
+            ["@types/babel__template", "npm:7.4.1"],
+            ["@types/babel__traverse", "npm:7.14.2"],
             ["@types/jest", "npm:27.4.0"],
             ["@types/node", "npm:17.0.6"],
+            ["@xstate/fsm", "npm:1.6.3"],
             ["@yarnpkg/sdks", "npm:2.6.0-rc.1"],
             ["babel-jest", "virtual:a7cd21b87660a29270ead5347039d996a0421da5fbff7f931b71cf9ec115faf4ca3064165e41bac447c31f3807d3284a67f954a5ed17828bc3e41682520ff588#npm:27.4.5"],
             ["babel-plugin-macros", "npm:3.1.0"],
@@ -2924,6 +2929,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/types", "npm:7.16.7"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:7.4.1", {
+          "packageLocation": "./.yarn/cache/@types-babel__template-npm-7.4.1-fe1db49e53-649fe8b42c.zip/node_modules/@types/babel__template/",
+          "packageDependencies": [
+            ["@types/babel__template", "npm:7.4.1"],
+            ["@babel/parser", "npm:7.16.7"],
+            ["@babel/types", "npm:7.16.7"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["@types/babel__traverse", [
@@ -2931,6 +2945,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-babel__traverse-npm-7.0.16-2ec8ed539a-98fee86501.zip/node_modules/@types/babel__traverse/",
           "packageDependencies": [
             ["@types/babel__traverse", "npm:7.0.16"],
+            ["@babel/types", "npm:7.16.7"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:7.14.2", {
+          "packageLocation": "./.yarn/cache/@types-babel__traverse-npm-7.14.2-fd6679839e-a797ea09c7.zip/node_modules/@types/babel__traverse/",
+          "packageDependencies": [
+            ["@types/babel__traverse", "npm:7.14.2"],
             ["@babel/types", "npm:7.16.7"]
           ],
           "linkType": "HARD",
@@ -3113,6 +3135,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-yargs-parser-npm-15.0.0-db1d59832c-333ab73a1f.zip/node_modules/@types/yargs-parser/",
           "packageDependencies": [
             ["@types/yargs-parser", "npm:15.0.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@xstate/fsm", [
+        ["npm:1.6.3", {
+          "packageLocation": "./.yarn/cache/@xstate-fsm-npm-1.6.3-17c55864e9-3cf2395218.zip/node_modules/@xstate/fsm/",
+          "packageDependencies": [
+            ["@xstate/fsm", "npm:1.6.3"]
           ],
           "linkType": "HARD",
         }]
@@ -4206,12 +4237,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/core", "npm:7.16.7"],
             ["@babel/preset-env", "virtual:a7cd21b87660a29270ead5347039d996a0421da5fbff7f931b71cf9ec115faf4ca3064165e41bac447c31f3807d3284a67f954a5ed17828bc3e41682520ff588#npm:7.16.7"],
             ["@babel/preset-typescript", "virtual:a7cd21b87660a29270ead5347039d996a0421da5fbff7f931b71cf9ec115faf4ca3064165e41bac447c31f3807d3284a67f954a5ed17828bc3e41682520ff588#npm:7.16.7"],
+            ["@babel/template", "npm:7.16.7"],
+            ["@babel/traverse", "npm:7.16.7"],
             ["@babel/types", "npm:7.16.7"],
             ["@types/babel-plugin-macros", "npm:2.8.5"],
             ["@types/babel-plugin-tester", "npm:9.0.4"],
             ["@types/babel__core", "npm:7.1.18"],
+            ["@types/babel__template", "npm:7.4.1"],
+            ["@types/babel__traverse", "npm:7.14.2"],
             ["@types/jest", "npm:27.4.0"],
             ["@types/node", "npm:17.0.6"],
+            ["@xstate/fsm", "npm:1.6.3"],
             ["@yarnpkg/sdks", "npm:2.6.0-rc.1"],
             ["babel-jest", "virtual:a7cd21b87660a29270ead5347039d996a0421da5fbff7f931b71cf9ec115faf4ca3064165e41bac447c31f3807d3284a67f954a5ed17828bc3e41682520ff588#npm:27.4.5"],
             ["babel-plugin-macros", "npm:3.1.0"],

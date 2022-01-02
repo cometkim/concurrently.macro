@@ -2,70 +2,88 @@ import type { NodePath } from '@babel/core';
 import type {
   ArrowFunctionExpression,
   CallExpression,
-  Expression,
   FunctionExpression,
-  Identifier,
-  VariableDeclarator,
 } from '@babel/types';
+import { interpret } from '@xstate/fsm';
 import type { MacroHandler } from 'babel-plugin-macros';
-import { createMacro, MacroError } from 'babel-plugin-macros';
+import { createMacro } from 'babel-plugin-macros';
 
-const handler: MacroHandler = ({ references, state, babel }) => {
-  const { types: t, template } = babel;
+import { machine } from './machine';
+import { isFloat, arrayOf } from './utils';
+
+const handler: MacroHandler = ({ references }) => {
   for (const referencePath of references.default) {
     const { node, parentPath } = referencePath;
 
     if (!parentPath.isCallExpression({ callee: node })) {
       throw parentPath.buildCodeFrameError('The macro must be used as a call expression');
     }
+
     const callPath = parentPath as NodePath<CallExpression>;
+    const [argumentPath, concurrencyPath] = callPath.get('arguments');
 
-    const argumentPath = callPath.get('arguments')[0];
-    if (!(argumentPath.isFunctionExpression() || argumentPath.isArrowFunctionExpression())) {
-      throw parentPath.buildCodeFrameError('Only (arrow) function expression is accepted here');
+    let concurrency = Infinity;
+    if (concurrencyPath) {
+      if (concurrencyPath.isNumericLiteral()) {
+        concurrency = concurrencyPath.node.value;
+      } else {
+        throw concurrencyPath.buildCodeFrameError('Only numeric literal is accepted here');
+      }
     }
-    const functionPath = argumentPath as NodePath<FunctionExpression | ArrowFunctionExpression>;
-
-    if (!functionPath.get('async')) {
-      throw functionPath.buildCodeFrameError('Only async function is accepted here');
+    if (isFloat(concurrency)) {
+      throw concurrencyPath.buildCodeFrameError('Only value is accepted here');
     }
 
-    const promiseArgs: Array<{ decl: string, expression: Expression }> = [];
+    function validateFunctionPath(nodePath: NodePath<any>): nodePath is NodePath<FunctionExpression | ArrowFunctionExpression> {
+      return nodePath.isFunctionExpression() || nodePath.isArrowFunctionExpression();
+    }
+
+    let functionPath = argumentPath;
+    let sideEffectFn: string | null = null;
+
+    if (functionPath.isArrowFunctionExpression() && !functionPath.node.async) {
+      const [param] = arrayOf(functionPath.get('params'));
+      if (!param.isIdentifier()) {
+        throw param.buildCodeFrameError('Only idenfifier is accepted here');
+      }
+      sideEffectFn = param.node.name;
+      functionPath = functionPath.get('body') as NodePath<any>;
+    }
+
+    if (!validateFunctionPath(functionPath)) {
+      throw functionPath.buildCodeFrameError('Only (arrow) function expression is accepted here');
+    }
+
+    const service = interpret(machine).start();
+
     functionPath.traverse({
-      AwaitExpression(path) {
-        const { node, parentPath } = path;
-        if (parentPath.isVariableDeclarator()) {
-          const declaratorPath = parentPath as NodePath<VariableDeclarator>;
-          const decl = declaratorPath.get('id').node as Identifier;
-          promiseArgs.push({ decl: decl.name, expression: node.argument });
-          parentPath.parentPath.remove();
+      AwaitExpression: {
+        enter(path) {
+          service.send({ type: 'ENTER_AWAIT_EXPRESSION', path });
+        },
+        exit() {
+          service.send({ type: 'EXIT_AWAIT_EXPRESSION' });
+        },
+      },
+      BlockStatement: {
+        enter() {
+          service.send({ type: 'ENTER_BLOCK_STATEMENT' });
+        },
+        exit() {
+          service.send({ type: 'EXIT_BLOCK_STATEMENT' });
+        },
+      },
+      CallExpression(path) {
+        const node = path.node.callee;
+        if (node.type === 'Identifier' && node.name === sideEffectFn) {
+          service.send({ type: 'CALL_SIDE_EFFECT', path });
         }
       },
     });
 
-    const ast = t.variableDeclaration('const', [
-      t.variableDeclarator(
-        t.objectPattern(
-          promiseArgs.map((args, i) => t.objectProperty(t.numericLiteral(i), t.identifier(args.decl)))
-        ),
-        t.awaitExpression(
-          t.callExpression(
-            t.memberExpression(
-              t.identifier('Promise'),
-              t.identifier('all'),
-            ),
-            [t.arrayExpression(
-              promiseArgs.map(args => t.clone(args.expression)),
-            )],
-          ),
-        ),
-      ),
-    ]);
-    // @ts-ignore
-    functionPath.get('body').unshiftContainer('body', ast);
-    callPath.replaceWith(functionPath);
+    service.stop();
 
-    // throw new MacroError('WIP: Not implemented yet');
+    callPath.replaceWith(functionPath);
   }
 };
 

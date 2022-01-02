@@ -2,5 +2,7 @@ interface AsyncFunction {
   (...args: any[]): Promise<any>;
 }
 
-function macro<T extends AsyncFunction>(func: T): T;
-export default macro;
+type SideEffectFn = () => void;
+
+export default function concurrently<T extends AsyncFunction>(func: (effect: SideEffectFn) => T, concurrency?: number): T;
+export default function concurrently<T extends AsyncFunction>(func: T, concurrency?: number): T;
