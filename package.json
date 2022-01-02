@@ -1,6 +1,6 @@
 {
   "name": "concurrently.macro",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "types": "./index.d.ts",
   "main": "src/index.ts",
   "publishConfig": {
@@ -24,11 +24,13 @@
     "async"
   ],
   "files": [
-    "src",
     "index.js",
+    "machine.js",
+    "utils.js",
     "index.d.ts"
   ],
   "scripts": {
+    "prepack": "yarn build",
     "test": "jest",
     "build": "babel src -d . --extensions .ts"
   },
