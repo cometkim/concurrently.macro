@@ -7,7 +7,7 @@ Transforms your async function to be run concurrently much as possible.
 
 ## Features
 
-- [ ] Bundles multiple await expressions into a single `Promise.all` expression
+- [x] Bundles multiple await expressions into a single `Promise.all` expression
 - [x] Simple dependency analysis
 - [ ] Graph dependency analysis
 - [x] Manually emit side-effects
