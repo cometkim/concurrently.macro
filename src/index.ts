@@ -31,7 +31,7 @@ const handler: MacroHandler = ({ references }) => {
       }
     }
     if (isFloat(concurrency)) {
-      throw concurrencyPath.buildCodeFrameError('Only value is accepted here');
+      throw concurrencyPath.buildCodeFrameError('Only integer value is accepted here');
     }
 
     function validateFunctionPath(nodePath: NodePath<any>): nodePath is NodePath<FunctionExpression | ArrowFunctionExpression> {
