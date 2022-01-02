@@ -1,6 +1,9 @@
 const deepObject = () => Promise.resolve({});
+
 const deepArray = () => Promise.resolve({});
+
 const A = Promise.resolve();
+
 const B = (...args) => Promise.resolve();
 
 async () => {

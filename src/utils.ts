@@ -5,5 +5,6 @@ export const intersect = (arr1: any[], arr2: any[]) => {
 }
 
 export const arrayOf = <T>(value: T | T[]): T[] => {
+  if (!value) return [];
   return Array.isArray(value) ? value : [value];
 }

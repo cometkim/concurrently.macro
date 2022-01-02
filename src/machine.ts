@@ -11,7 +11,7 @@ import * as t from '@babel/types';
 import template from '@babel/template';
 import { createMachine, assign } from '@xstate/fsm';
 
-import { intersect } from './utils';
+import { intersect, arrayOf } from './utils';
 
 type Argument = {
   val: LVal | null,
@@ -61,15 +61,17 @@ export const machine = createMachine<Context, Event>({
               dependencies: [],
             };
 
+            if (event.path.parentPath.isVariableDeclarator()) {
+              currentArgument.path = event.path.parentPath.parentPath;
+            }
+
+            if (currentArgument.path.state?.replaced) {
+              return context;
+            }
+
             // collect new declaratios
             const currentBindings: string[] = [];
             if (event.path.parentPath.isVariableDeclarator()) {
-              currentArgument.path = event.path.parentPath.parentPath;
-
-              if (currentArgument.path.state?.replaced) {
-                return context;
-              }
-
               const node = event.path.parentPath.node;
               if (node.id.type === 'Identifier') {
                 const val = node.id;
@@ -102,6 +104,7 @@ export const machine = createMachine<Context, Event>({
                 if (
                   parentPath === event.path ||
                   parentPath.isCallExpression() ||
+                  parentPath.isArrayExpression() ||
                   parentPath.isMemberExpression({ object: node })
                 ) {
                   currentArgument.dependencies.push(node.name);
@@ -214,12 +217,13 @@ export const machine = createMachine<Context, Event>({
       context.placeholder.state = { replaced: true };
 
       return {
+        ...context,
         counter: 0,
-        placeholder: null,
-        currentArgument: null,
+        placeholder: context.currentArgument?.path ?? null,
         currentBindings: [],
-        bindings: [],
-        arguments: [],
+        currentArgument: null,
+        bindings: context.currentBindings,
+        arguments: arrayOf(context.currentArgument ?? []),
       };
     }),
   },
