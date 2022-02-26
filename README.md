@@ -11,7 +11,7 @@ Transforms your async function to be run concurrently much as possible.
 - [x] Simple dependency analysis
 - [ ] Graph dependency analysis
 - [ ] Limit maximum concurrency
-- [x] Break with side-effects
+- [x] Insert side-effects
 
 ## Install
 
